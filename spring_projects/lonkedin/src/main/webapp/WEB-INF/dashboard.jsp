@@ -9,9 +9,10 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/dash.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/app.js"></script>
 </head>
@@ -204,32 +205,8 @@
 						<c:forEach items="${ skills }" var="us">
 							<div>
 								<c:set var="ct">${ us.count }</c:set>
-								<p>${ us.skill.name } <span ${ us.count> -1 || us.count == null ? "class='green'" :
-										"class='red'" }>${ us.count > -1 || us.count == null ? "+".concat(ct) : ct
-										}</span></p>
-								<p class="skillLevel">
-									<c:if test="${ us.count <= -1000}">
-										Atrocious
-									</c:if>
-									<c:if test="${ us.count <= -20 && us.count > -1000}">
-										Incompetent
-									</c:if>
-									<c:if test="${ us.count < 0 && us.count > -20}">
-										Questionable
-									</c:if>
-									<c:if test="${ us.count >= 0 && us.count < 10}">
-										Novice
-									</c:if>
-									<c:if test="${ us.count >= 10 && us.count < 20}">
-										Intermediate
-									</c:if>
-									<c:if test="${ us.count >= 20 && us.count < 1000}">
-										Advanced
-									</c:if>
-									<c:if test="${ us.count >= 1000}">
-										Master
-									</c:if>
-								</p>
+								<p>${ us.skill.name } <span ${ us.count> -1 || us.count == null ? "class='green'" :"class='red'" }>
+									${ us.count > -1 || us.count == null ? "+".concat(ct) : ct }</span></p>
 								<c:if test="${ user != loggedIn }">
 									<c:choose>
 										<c:when
@@ -256,6 +233,29 @@
 										<c:otherwise>${ null }</c:otherwise>
 									</c:choose>
 								</c:if>
+								<p class="skillLevel">
+									<c:if test="${ us.count <= -1000}">
+										Atrocious
+									</c:if>
+									<c:if test="${ us.count <= -20 && us.count > -1000}">
+										Incompetent
+									</c:if>
+									<c:if test="${ us.count < 0 && us.count > -20}">
+										Questionable
+									</c:if>
+									<c:if test="${ us.count >= 0 && us.count < 10}">
+										Novice
+									</c:if>
+									<c:if test="${ us.count >= 10 && us.count < 20}">
+										Intermediate
+									</c:if>
+									<c:if test="${ us.count >= 20 && us.count < 1000}">
+										Advanced
+									</c:if>
+									<c:if test="${ us.count >= 1000}">
+										Master
+									</c:if>
+								</p>
 							</div>
 						</c:forEach>
 					</div>
@@ -287,9 +287,16 @@
 										<div class="postGrid">
 											<img class="postPic" src="${ post.creator.picture }" alt="" />
 											<div>
-												<p class="postName"><a style="text-decoration:none; color:black"
-														href="/dashboard/${ post.creator.id }">${ post.creator.name
-														}</a> (${ post.creator.universe })</p>
+												<div class="postNameGrid">
+													<p class="postName">
+														<a style="text-decoration:none; color:black"
+															href="/dashboard/${ post.creator.id }">${ post.creator.name }</a>
+														(${ post.creator.universe })
+													</p>
+													<c:if test="${ user.id == loggedIn.id or post.creator.id == loggedIn.id or loggedIn.id == superUser.id }">
+														<p><a class="deletePost" href="/post/${post.id}/delete">Delete</a></p>
+													</c:if>
+												</div>
 												<p class="postJob">${ post.creator.job != null ?
 													post.creator.job.title.concat(" -- ").concat(post.creator.game.name)
 													: "Seeking Work" } </p>

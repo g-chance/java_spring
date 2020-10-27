@@ -8,6 +8,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>New Character</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -31,9 +32,11 @@
 
 	// API calls
 		const proxyurl = "https://cors-anywhere.herokuapp.com/";
-		const url = "https://api-v3.igdb.com/characters";
+		/* const url = "https://api-v3.igdb.com/characters"; */
+		const url = "https://api.igdb.com/v4/characters"
 		console.log(proxyurl + url)
-		const url2 = "https://api-v3.igdb.com/character_mug_shots";
+		/* const url2 = "https://api-v3.igdb.com/character_mug_shots"; */
+		const url2 = "https://api.igdb.com/v4character_mug_shots";
 		console.log(proxyurl + url2)
 
 		$(document).ready(function () {
@@ -70,9 +73,14 @@
 				}
 				$("#flex").html(images);
 			});
-
+			$('.lonkImage').click(function () {
+				let picValue = $(this).attr("src");
+				$("#picinput").attr("value", picValue);
+				$("img").css("outline", "none");
+				$(this).css("outline", "3px solid green");
+			})
 			$(document).ajaxComplete(function (e, xhr, settings) {
-				$('img').click(function () {
+				$('.randomImage').click(function () {
 					let picValue = $(this).attr("src");
 					$("#picinput").attr("value", picValue);
 					$("img").css("outline", "none");
